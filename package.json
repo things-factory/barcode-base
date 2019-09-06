@@ -1,6 +1,6 @@
 {
-  "name": "@things-factory/label-base",
-  "version": "0.1.8",
+  "name": "@things-factory/barcode-base",
+  "version": "0.1.9",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
