@@ -2,7 +2,6 @@ import { store } from '@things-factory/shell'
 
 import { REGISTER_PRINTER_TYPE } from '@things-factory/print-base'
 import { labelPrinterHandler } from './handlers/label-printer-handler'
-import { usbLabelPrinterHandler } from './handlers/usb-label-printer-handler'
 
 export default function bootstrap() {
   store.dispatch({
@@ -11,15 +10,20 @@ export default function bootstrap() {
     handler: labelPrinterHandler
   })
 
-  store.dispatch({
-    type: REGISTER_PRINTER_TYPE,
-    printerType: 'usb',
-    handler: usbLabelPrinterHandler,
-    staticPrinters: [
-      {
-        name: 'USB Printer',
-        type: 'usb'
-      }
-    ]
-  })
+  /* if support webusb */
+  if (navigator.usb) {
+    import('./handlers/usb-label-printer-handler').then(handler =>
+      store.dispatch({
+        type: REGISTER_PRINTER_TYPE,
+        printerType: 'usb',
+        handler: handler.usbLabelPrinterHandler,
+        staticPrinters: [
+          {
+            name: 'USB Printer',
+            type: 'usb'
+          }
+        ]
+      })
+    )
+  }
 }
