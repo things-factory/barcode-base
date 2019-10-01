@@ -9,6 +9,8 @@ export function buildLabelPrintCommand(imageData, width, height, orientation, mi
 }
 
 export function imageDataToGrf(imageData, width, height, orientation = 'N', mirror = false, upsideDown = false) {
+  width = Math.round(width)
+  height = Math.round(height)
   var printWidth = width,
     printHeight = height
   var lay = false
@@ -108,7 +110,7 @@ export function imageDataToGrf(imageData, width, height, orientation = 'N', mirr
   const diff = (bytesPerLine << 3) - printWidth
 
   // GRF 사이즈 = 가로 바이트 사이즈 * 세로
-  const grfSize = bytesPerLine * printHeight
+  const grfSize = Math.round(bytesPerLine * printHeight)
 
   // 가로 한 줄당 최대 문자 수 (바이트 당 두 글자)
   const maxCharsOfLine = bytesPerLine << 1
