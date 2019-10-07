@@ -10,15 +10,17 @@ export class USBPrinter {
   }
 
   async setup() {
-    var devices = await navigator.usb.getDevices()
-    if (devices.length > 0) {
-      this.device = devices[0]
+    var selectedDevice = await navigator.usb.requestDevice({
+      filters: this.filters
+    })
 
-      await this.device.open()
-      if (this.device.configurations) {
-        await this.device.selectConfiguration(1)
-        await this.device.claimInterface(0)
-      }
+    this.device = selectedDevice
+    console.log(this.device)
+
+    await this.device.open()
+    if (this.device.configurations) {
+      await this.device.selectConfiguration(1)
+      await this.device.claimInterface(0)
     }
   }
 
@@ -35,23 +37,23 @@ export class USBPrinter {
     var encoder = new TextEncoder()
     var data = encoder.encode(content)
 
-    const { endpointNumber } = this.device.configuration.interfaces[0].alternates[0].endpoints[1]
+    const { endpointNumber } = this.device.configuration.interfaces[0].alternate.endpoints[1]
     await this.device.transferOut(endpointNumber, data)
   }
 
   async connectAndPrint(content) {
-    if (!this.device) {
-      var selectedDevice = await navigator.usb.requestDevice({
-        filters: this.filters
-      })
+    try {
+      if (!this.device) {
+        await this.setup()
+        await this.print(content)
+      } else {
+        await this.print(content)
+      }
+    } catch (e) {
+      console.log(e)
+      delete this.device
 
-      this.device = selectedDevice
-      console.log(this.device)
-
-      await this.setup(this.device)
-      await this.print(content)
-    } else {
-      await this.print(content)
+      throw e
     }
   }
 
