@@ -18,7 +18,7 @@ export class USBPrinter {
     console.log(this.device)
 
     await this.device.open()
-    if (this.device.configurations) {
+    if (!this.device.configuration) {
       await this.device.selectConfiguration(1)
       await this.device.claimInterface(0)
     }
