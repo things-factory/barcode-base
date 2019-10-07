@@ -56,8 +56,4 @@ export class USBPrinter {
       throw e
     }
   }
-
-  disconnect() {
-    this.device && this.device.disconnect()
-  }
 }
