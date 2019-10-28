@@ -20,8 +20,8 @@ export class USBPrinter {
     await this.device.open()
     if (!this.device.configuration) {
       await this.device.selectConfiguration(1)
-      await this.device.claimInterface(0)
     }
+    await this.device.claimInterface(0)
   }
 
   async read() {
