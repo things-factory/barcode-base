@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/barcode-base",
-  "version": "1.0.0-alpha.1",
+  "version": "2.0.0",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -28,7 +28,7 @@
     "migration:revert": "node ./node_modules/typeorm/cli.js migration:revert"
   },
   "dependencies": {
-    "@things-factory/print-base": "^1.0.0-alpha.1",
+    "@things-factory/print-base": "^2.0.0",
     "@zxing/library": "^0.15.1"
   },
   "devDependencies": {}
